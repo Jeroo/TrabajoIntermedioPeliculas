@@ -1,25 +1,47 @@
 package com.example.scuev.trabajointermediopeliculas;
 
-public class Peliculas {
+import android.graphics.Bitmap;
 
-    private int Id;
+import java.io.Serializable;
+import java.util.Date;
+
+public class Peliculas implements Serializable {
+
+    private int PeliculaId;
+    private int UsuarioId;
     private String Titulo;
     private String Descripcion;
-    private int Imagen;
+    private String ActorPrincipal;
+    private String Ciudad;
+    private Date FechaVisionado;
+    private Bitmap Imagen;
 
-    public Peliculas(int id, String titulo, String descripcion, int imagen) {
-        Id = id;
+    public Peliculas(int peliculaId, int usuarioId, String titulo, String descripcion, String actorPrincipal, String ciudad, Date fechaVisionado, Bitmap imagen) {
+        PeliculaId = peliculaId;
+        UsuarioId = usuarioId;
         Titulo = titulo;
         Descripcion = descripcion;
+        ActorPrincipal = actorPrincipal;
+        Ciudad = ciudad;
+        FechaVisionado = fechaVisionado;
         Imagen = imagen;
     }
 
-    public int getId() {
-        return Id;
+
+    public long getPeliculaId() {
+        return PeliculaId;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public void setPeliculaId(int peliculaId) {
+        PeliculaId = peliculaId;
+    }
+
+    public long getUsuarioId() {
+        return UsuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        UsuarioId = usuarioId;
     }
 
     public String getTitulo() {
@@ -38,11 +60,35 @@ public class Peliculas {
         Descripcion = descripcion;
     }
 
-    public int getImagen() {
+    public String getActorPrincipal() {
+        return ActorPrincipal;
+    }
+
+    public void setActorPrincipal(String actorPrincipal) {
+        ActorPrincipal = actorPrincipal;
+    }
+
+    public String getCiudad() {
+        return Ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        Ciudad = ciudad;
+    }
+
+    public Date getFechaVisionado() {
+        return FechaVisionado;
+    }
+
+    public void setFechaVisionado(Date fechaVisionado) {
+        FechaVisionado = fechaVisionado;
+    }
+
+    public Bitmap getImagen() {
         return Imagen;
     }
 
-    public void setImagen(int imagen) {
+    public void setImagen(Bitmap imagen) {
         Imagen = imagen;
     }
 }

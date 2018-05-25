@@ -34,7 +34,7 @@ public class Adaptador extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return listaPeliculas.get(position).getId();
+        return listaPeliculas.get(position).getPeliculaId();
     }
 
     @Override
@@ -53,7 +53,8 @@ public class Adaptador extends BaseAdapter {
 
         titulo.setText(listaPeliculas.get(position).getTitulo().toString());
         descripcion.setText(listaPeliculas.get(position).getDescripcion().toString());
-        imagen.setImageResource(listaPeliculas.get(position).getImagen());
+        //imagen.setImageResource(listaPeliculas.get(position).getImagen());
+        imagen.setImageResource(R.drawable.ic_launcher_background);
 
         return vista;
 

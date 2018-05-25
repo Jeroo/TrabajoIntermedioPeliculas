@@ -28,14 +28,19 @@
                 android:id="@+id/txttitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="titulo"
                 android:textSize="18sp"
+                android:textColor="#000000"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtdescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000000"
                 android:text="descripcion" />
         </LinearLayout>
     </LinearLayout>
