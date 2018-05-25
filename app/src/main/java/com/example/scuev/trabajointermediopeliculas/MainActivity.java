@@ -8,45 +8,31 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    ListView listaPeliculas;
+    ArrayList<Peliculas> lista;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
+        listaPeliculas = (ListView)findViewById(R.id.lstPeliculas);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+        lista = new ArrayList<Peliculas>();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        lista.add(new Peliculas(1,"Titulo1","Pelicula mejor de todas",R.drawable.ic_launcher_background));
+        lista.add(new Peliculas(2,"Titulo2","Pelicula mejor 2 de todas",R.drawable.ic_launcher_background));
+        lista.add(new Peliculas(3,"Titulo3","Pelicula mejor 3 de todas",R.drawable.ic_launcher_background));
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        Adaptador miadaptador = new Adaptador(getApplicationContext(),lista);
 
-        return super.onOptionsItemSelected(item);
+        listaPeliculas.setAdapter(miadaptador);
+
     }
 }
