@@ -1,6 +1,8 @@
 package com.example.scuev.trabajointermediopeliculas;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listaPeliculas;
     ArrayList<Peliculas> lista;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +50,22 @@ public class MainActivity extends AppCompatActivity {
 
         listaPeliculas = (ListView) findViewById(R.id.lstPeliculas);
 
+        sp = getSharedPreferences("login", Context.MODE_PRIVATE);
+
+
+        if(!sp.getBoolean("logged",false)){
+            goToLoginActivity();
+        }
+
+        String usuario = sp.getString("usuario","");
+        Boolean logeado = sp.getBoolean("logged",false);
+        Log.d("Usuario",usuario);
+        Log.d("logged",logeado.toString());
+
+
+
         lista = new ArrayList<Peliculas>();
-        getPeliculasDesdeomdbapi("http://www.omdbapi.com/?t=deadpool&apikey=507a25ac");
+       // getPeliculasDesdeOmdbapi("http://www.omdbapi.com/?t=deadpool&apikey=507a25ac");
        // lista = getPeliculasDesdeomdbapi("http://www.omdbapi.com/?t=deadpool&apikey=507a25ac");
 
 
@@ -81,7 +98,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void getPeliculasDesdeomdbapi(String urlomdbapi){
+    public void goToLoginActivity(){
+        Intent i = new Intent(this,LogonActivity.class);
+        startActivity(i);
+    }
+
+    public void getPeliculasDesdeOmdbapi(String urlomdbapi){
 
         AsyncTask.execute(new Runnable() {
             @Override
