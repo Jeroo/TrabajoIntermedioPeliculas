@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context=".MainActivity">
+    tools:context=".PeliculasActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -13,30 +13,24 @@
 
         android:theme="@style/AppTheme.AppBarOverlay">
 
-
         <EditText
-            android:id="@+id/txtBuscarPeliculasAPI"
+            android:id="@+id/txtBuscarPeliculasLocal"
             android:layout_width="match_parent"
             android:hint="Buscar peliculas en omdbapi"
             android:layout_height="match_parent" />
 
         <Button
-            android:id="@+id/btnBuscarPeliculasAPI"
+            android:id="@+id/btnBuscarPeliculasLocal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Buscar" />
 
         <Button
-            android:id="@+id/btnPeliculasAgregadas"
+            android:id="@+id/btnAgregarPelicula"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Ver Peliculas Agregadas" />
+            android:layout_height="wrap_content"
+            android:text="Agregar Nueva" />
+
 
     </android.support.design.widget.AppBarLayout>
-
-
-
-    <include layout="@layout/content_main" />
-
-
 </LinearLayout>

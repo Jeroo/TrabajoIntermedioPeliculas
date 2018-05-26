@@ -30,4 +30,25 @@
         android:layout_marginTop="10dp"
         android:text="Descripcion" />
 
+
+    <Button
+        android:id="@+id/btnAgregarPeliculaAPI"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar" />
+
+    <Button
+        android:id="@+id/btnActualizarPelicula"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Actualizar" />
+
+    <Button
+        android:id="@+id/btnBorrarPelicula"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Borrar" />
+
+
+
 </LinearLayout>

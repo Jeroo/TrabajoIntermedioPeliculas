@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listaPeliculas;
     ArrayList<Peliculas> lista;
     SharedPreferences sp;
+    Button verPeliculas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listaPeliculas = (ListView) findViewById(R.id.lstPeliculas);
+        verPeliculas = (Button) findViewById(R.id.btnPeliculasAgregadas);
 
         sp = getSharedPreferences("login", Context.MODE_PRIVATE);
 
@@ -69,15 +72,18 @@ public class MainActivity extends AppCompatActivity {
        // lista = getPeliculasDesdeomdbapi("http://www.omdbapi.com/?t=deadpool&apikey=507a25ac");
 
 
-       // lista.addAll(getPeliculasDesdeomdbapi("http://www.omdbapi.com/?t=deadpool&apikey=507a25ac"));
 
+        byte[] sevenItems = new byte[] { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };
 
-       /* lista.add(new Peliculas(1,1,"Pelicula mejor de todas",R.drawable.ic_launcher_background));
-        lista.add(new Peliculas(2,"Titulo2","Pelicula mejor 2 de todas",R.drawable.ic_launcher_foreground));
-        lista.add(new Peliculas(3,"Titulo3","Pelicula mejor 3 de todas",R.drawable.ic_launcher_background));
-        lista.add(new Peliculas(1,"Titulo4","Pelicula mejor 4 todas",R.drawable.ic_launcher_foreground));
-        lista.add(new Peliculas(2,"Titulo5","Pelicula mejor 5 de todas",R.drawable.ic_launcher_background));
-        lista.add(new Peliculas(3,"Titulo6","Pelicula mejor 6 de todas",R.drawable.ic_launcher_foreground));*/
+        lista.add(new Peliculas(1, 1, "Pelicula mejor de todas", "Descripcion Pelicula mejor de todas",
+                "Raynols", "Santo Domingo", "Pelicula mejor de todas", sevenItems));
+        lista.add(new Peliculas(1, 1, "Pelicula mejor de todas", "Descripcion Pelicula mejor de todas",
+                "Raynols", "Santo Domingo", "Pelicula mejor de todas", sevenItems));
+        lista.add(new Peliculas(1, 1, "Pelicula mejor de todas", "Descripcion Pelicula mejor de todas",
+                "Raynols", "Santo Domingo", "Pelicula mejor de todas", sevenItems));
+        lista.add(new Peliculas(1, 1, "Pelicula mejor de todas", "Descripcion Pelicula mejor de todas",
+                "Raynols", "Santo Domingo", "Pelicula mejor de todas", sevenItems));
+
 
         Adaptador miadaptador = new Adaptador(getApplicationContext(), lista);
 

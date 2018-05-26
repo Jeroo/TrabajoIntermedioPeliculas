@@ -13,10 +13,10 @@ public class Peliculas implements Serializable {
     private String Descripcion;
     private String ActorPrincipal;
     private String Ciudad;
-    private Date FechaVisionado;
-    private Bitmap Imagen;
+    private String FechaVisionado;
+    private byte[] Imagen;
 
-    public Peliculas(int peliculaId, int usuarioId, String titulo, String descripcion, String actorPrincipal, String ciudad, Date fechaVisionado, Bitmap imagen) {
+    public Peliculas(int peliculaId, int usuarioId, String titulo, String descripcion, String actorPrincipal, String ciudad, String fechaVisionado, byte[] imagen) {
         PeliculaId = peliculaId;
         UsuarioId = usuarioId;
         Titulo = titulo;
@@ -76,19 +76,19 @@ public class Peliculas implements Serializable {
         Ciudad = ciudad;
     }
 
-    public Date getFechaVisionado() {
+    public String getFechaVisionado() {
         return FechaVisionado;
     }
 
-    public void setFechaVisionado(Date fechaVisionado) {
+    public void setFechaVisionado(String fechaVisionado) {
         FechaVisionado = fechaVisionado;
     }
 
-    public Bitmap getImagen() {
+    public byte[] getImagen() {
         return Imagen;
     }
 
-    public void setImagen(Bitmap imagen) {
+    public void setImagen(byte[] imagen) {
         Imagen = imagen;
     }
 }
