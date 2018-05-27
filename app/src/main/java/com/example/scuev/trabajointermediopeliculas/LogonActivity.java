@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,6 +36,15 @@ public class LogonActivity extends AppCompatActivity {
         usuario = (EditText) findViewById(R.id.txtUsuario);
         clave = (EditText) findViewById(R.id.txtClave);
         registrarse = (TextView) findViewById(R.id.txtRegistrarse);
+
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(usuario.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(clave.getWindowToken(), 0);
+
+       /* InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(usuario, InputMethodManager.SHOW_IMPLICIT);
+        imm.showSoftInput(clave, InputMethodManager.SHOW_IMPLICIT);*/
 
 
         login.setOnClickListener(new View.OnClickListener() {

@@ -10,20 +10,28 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.JsonReader;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.scuev.trabajointermediopeliculas.API.PeliculasService;
+import com.example.scuev.trabajointermediopeliculas.Models.PeliculasAPI;
+import com.example.scuev.trabajointermediopeliculas.Models.PeliculasRespuesta;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,11 +40,18 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Peliculas> lista;
     SharedPreferences sp;
     Button verPeliculas;
+    Adaptador miadaptador;
+    private Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,42 +69,33 @@ public class MainActivity extends AppCompatActivity {
 
         listaPeliculas = (ListView) findViewById(R.id.lstPeliculas);
         verPeliculas = (Button) findViewById(R.id.btnPeliculasAgregadas);
+        lista = new ArrayList<Peliculas>();
+        //obtenerPeliculas();
+
+        miadaptador = new Adaptador(getApplicationContext(), lista);
+
+        listaPeliculas.setAdapter(miadaptador);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://www.omdbapi.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+
+
 
         sp = getSharedPreferences("login", Context.MODE_PRIVATE);
 
 
-        if(!sp.getBoolean("logged",false)){
+        if (!sp.getBoolean("logged", false)) {
             goToLoginActivity();
         }
 
-        String usuario = sp.getString("usuario","");
-        Boolean logeado = sp.getBoolean("logged",false);
-        Log.d("Usuario",usuario);
-        Log.d("logged",logeado.toString());
+        String usuario = sp.getString("usuario", "");
+        Boolean logeado = sp.getBoolean("logged", false);
+        Log.d("Usuario", usuario);
+        Log.d("logged", logeado.toString());
 
-
-
-        lista = new ArrayList<Peliculas>();
-       // getPeliculasDesdeOmdbapi("http://www.omdbapi.com/?t=deadpool&apikey=507a25ac");
-       // lista = getPeliculasDesdeomdbapi("http://www.omdbapi.com/?t=deadpool&apikey=507a25ac");
-
-
-
-        byte[] sevenItems = new byte[] { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };
-
-        lista.add(new Peliculas(1, 1, "Pelicula mejor de todas", "Descripcion Pelicula mejor de todas",
-                "Raynols", "Santo Domingo", "Pelicula mejor de todas", sevenItems));
-        lista.add(new Peliculas(1, 1, "Pelicula mejor de todas", "Descripcion Pelicula mejor de todas",
-                "Raynols", "Santo Domingo", "Pelicula mejor de todas", sevenItems));
-        lista.add(new Peliculas(1, 1, "Pelicula mejor de todas", "Descripcion Pelicula mejor de todas",
-                "Raynols", "Santo Domingo", "Pelicula mejor de todas", sevenItems));
-        lista.add(new Peliculas(1, 1, "Pelicula mejor de todas", "Descripcion Pelicula mejor de todas",
-                "Raynols", "Santo Domingo", "Pelicula mejor de todas", sevenItems));
-
-
-        Adaptador miadaptador = new Adaptador(getApplicationContext(), lista);
-
-        listaPeliculas.setAdapter(miadaptador);
 
         listaPeliculas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -106,172 +114,81 @@ public class MainActivity extends AppCompatActivity {
         verPeliculas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,PeliculasActivity.class);
+                Intent i = new Intent(MainActivity.this, PeliculasActivity.class);
                 startActivity(i);
             }
         });
 
     }
 
-    public void goToLoginActivity(){
-        Intent i = new Intent(this,LogonActivity.class);
-        startActivity(i);
-    }
+    private void obtenerPeliculas() {
 
-    public void getPeliculasDesdeOmdbapi(String urlomdbapi){
 
-        AsyncTask.execute(new Runnable() {
+        PeliculasService service = retrofit.create(PeliculasService.class);
+        Call<PeliculasRespuesta> peliculasRespuestaCall = service.obtenerListaPeliculas("batman", "507a25ac");
+
+        peliculasRespuestaCall.enqueue(new Callback<PeliculasRespuesta>() {
             @Override
-            public void run() {
-                // All your networking logic
-                // Create URL
-                URL githubEndpoint = null;
-                try {
-                    githubEndpoint = new URL("http://www.omdbapi.com/?t=deadpool&apikey=507a25ac");
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
-                // Create connection
-                try {
-                    HttpsURLConnection myConnection =
-                            (HttpsURLConnection) githubEndpoint.openConnection();
-                    myConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Mobile Safari/537.36");
-                    myConnection.setRequestProperty("Accept",
-                            "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-                    myConnection.setRequestProperty("Contact-Me",
-                            "hathibelagal@example.com");
-
-                    if (myConnection.getResponseCode() == 200) {
-                        // Success
-                        InputStream responseBody = myConnection.getInputStream();
-                        InputStreamReader responseBodyReader =
-                                new InputStreamReader(responseBody, "UTF-8");
-
-                        JsonReader jsonReader = new JsonReader(responseBodyReader);
-                        Date currentTime = Calendar.getInstance().getTime();
-                        jsonReader.beginObject(); // Start processing the JSON object
-                        while (jsonReader.hasNext()) { // Loop through all keys
-                            String key = jsonReader.nextName(); // Fetch the next key
-                            if (key.equals("Title")) { // Check if desired key
-                                // Fetch the value as a String
-                                String Title = jsonReader.nextString();
+            public void onResponse(Call<PeliculasRespuesta> call, Response<PeliculasRespuesta> response) {
+                if (response.isSuccessful()) {
+                   // lista = new ArrayList<Peliculas>();
+                    PeliculasRespuesta peliculasRespuesta = response.body();
+                    ArrayList<PeliculasAPI> listaPeliculas = peliculasRespuesta.getSearch();
+                    byte[] sevenItems = new byte[]{0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20};
 
 
+                    for (int i = 0; i < listaPeliculas.size(); i++) {
 
-                                // Do something with the value
-                                Log.d("GitHubJSON",Title);
-                                /*lista.add(new Peliculas(1, 1, Title, "",
-                                       "", "", currentTime, null));*/
+                        PeliculasAPI p = listaPeliculas.get(i);
 
-                                break; // Break out of the loop
-
-
-                            } else {
-                                jsonReader.skipValue(); // Skip values of other keys
-                            }
-                        }
-                        jsonReader.close();
-                        myConnection.disconnect();
+                        /*try {
+                            lista.add(new Peliculas(0, 0, p.getTitle(), p.getTitle(),
+                                    p.getType(), "Santo Domingo", "", recoverImageFromUrl(p.getPoster().toString())));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }*/
 
 
-                    } else {
-                        // Error handling code goes here
+                        System.out.println("Titulo Pelicula: " + p.getTitle());
+                        Log.d("ListaPeliculasBatman", "Titulo Pelicula: " + p.getTitle());
+
                     }
+                } else {
 
-
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    Toast toast1 = Toast.makeText(getApplicationContext(), "onResponse: " + response.errorBody().toString(), Toast.LENGTH_LONG);
+                    toast1.setGravity(Gravity.CENTER, 0, 0);
+                    toast1.show();
                 }
+            }
+
+            @Override
+            public void onFailure(Call<PeliculasRespuesta> call, Throwable t) {
+
+                Toast toast1 = Toast.makeText(getApplicationContext(), "onFailure: " + t.getMessage(), Toast.LENGTH_LONG);
+                toast1.setGravity(Gravity.CENTER, 0, 0);
+                toast1.show();
             }
         });
 
     }
 
-    /*public ArrayList<Peliculas> getPeliculasDesdeomdbapi(String urlomdbapi) throws IOException {
+    public byte[] recoverImageFromUrl(String urlText) throws Exception {
+        URL url = new URL(urlText);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        URL url = null;
-        HttpURLConnection conn = null;
-
-        try {
-            url = new URL(urlomdbapi);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        try {
-            conn = (HttpURLConnection) url.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            conn.setRequestMethod("GET");
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            conn.connect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String inputLine;
-
-        StringBuffer response = new StringBuffer();
-
-        String json = "";
-
-        while ((inputLine = in.readLine()) != null) {
-
-            response.append(inputLine);
-
-        }
-        json = response.toString();
-
-        JSONArray jsonArr = null;
-
-        try {
-            jsonArr = new JSONArray(json);
-            ArrayList<Peliculas> objPelicula = new ArrayList<Peliculas>();
-            Date currentTime = Calendar.getInstance().getTime();
-            for (int i = 0; i < jsonArr.length(); i++) {
-
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = jsonArr.getJSONObject(i);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.d("Salida: ", jsonObject.optString("Title"));
-
-                objPelicula.add(new Peliculas(i, i, jsonObject.optString("Title"), jsonObject.optString("Plot"),
-                        jsonObject.optString("Actors"), jsonObject.optString("Country"), currentTime, null));
-
+        try (InputStream inputStream = url.openStream()) {
+            int n = 0;
+            byte[] buffer = new byte[1024];
+            while (-1 != (n = inputStream.read(buffer))) {
+                output.write(buffer, 0, n);
             }
-
-            return objPelicula;
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
 
+        return output.toByteArray();
+    }
 
-        return null;
-
-    }*/
-
-
-
-
+    public void goToLoginActivity() {
+        Intent i = new Intent(this, LogonActivity.class);
+        startActivity(i);
+    }
 }
-

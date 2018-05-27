@@ -1,6 +1,7 @@
 package com.example.scuev.trabajointermediopeliculas;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +10,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.scuev.trabajointermediopeliculas.Models.PeliculasAPI;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.scuev.trabajointermediopeliculas.R.drawable.ic_launcher_background;
 
 public class Adaptador extends BaseAdapter {
 
     Context contexto;
-    List<Peliculas> listaPeliculas;
+    ArrayList<Peliculas> listaPeliculas;
 
-    public Adaptador(Context contexto, List<Peliculas> listaPeliculas) {
+    public Adaptador(Context contexto,ArrayList<Peliculas> listaPeliculas) {
         this.contexto = contexto;
         this.listaPeliculas = listaPeliculas;
     }
@@ -53,11 +59,13 @@ public class Adaptador extends BaseAdapter {
 
         titulo.setText(listaPeliculas.get(position).getTitulo().toString());
         descripcion.setText(listaPeliculas.get(position).getDescripcion().toString());
-        //imagen.setImageResource(listaPeliculas.get(position).getImagen());
-        imagen.setImageResource(R.drawable.ic_launcher_background);
+        imagen.setImageResource(R.drawable.logo);
+       // imagen.setImageDrawable(R.drawable.ic_launcher_background);
+       // imagen.setImageBitmap(BitmapFactory.decodeByteArray(listaPeliculas.get(position).getImagen(), 0, listaPeliculas.get(position).getImagen().length));
 
         return vista;
 
 
     }
+
 }

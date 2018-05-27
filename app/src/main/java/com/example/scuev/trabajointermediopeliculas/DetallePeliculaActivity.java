@@ -57,7 +57,7 @@ public class DetallePeliculaActivity extends AppCompatActivity {
 
         titulo.setText(objPelicula.getTitulo());
         descripcion.setText(objPelicula.getDescripcion());
-        imgPelicula.setImageResource(R.drawable.ic_launcher_foreground);
+        imgPelicula.setImageResource(R.drawable.logo);
        // imgPelicula.setImageResource(objPelicula.getImagen());
 
         borrar.setOnClickListener(new View.OnClickListener() {
@@ -95,9 +95,10 @@ public class DetallePeliculaActivity extends AppCompatActivity {
                /* Intent pasar = new Intent(getApplicationContext(), DetallePeliculaActivity.class);
                 pasar.putExtra("objPeliculaModificar", (Serializable) objPeliculaModificar);
                 pasar.putExtra("peliculaId", String.valueOf(1));*/
-
+                Intent pasar = new Intent(getApplicationContext(), DetallePeliculaActivity.class);
                 sp = getSharedPreferences("objPeliculaModificar", Context.MODE_PRIVATE);
                 sp.edit().putInt("peliculaId",(int)objPeliculaModificar.getPeliculaId()).apply();
+                pasar.putExtra("objPeliculaModificar", (Serializable) (Peliculas)getIntent().getExtras().getSerializable("objPelicula"));
 
 
                 Intent i = new Intent(DetallePeliculaActivity.this,ModificarPeliculaActivity.class);

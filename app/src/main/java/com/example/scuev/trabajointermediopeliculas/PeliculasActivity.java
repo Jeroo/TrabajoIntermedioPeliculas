@@ -28,6 +28,7 @@ public class PeliculasActivity extends AppCompatActivity {
     Button agregarPelicula;
     Button buscarPelicula;
     EditText txtbuscar;
+    Adaptador miadaptador;
 
     PeliculasSQLiteHelper dbHelper;
     SQLiteDatabase db;
@@ -57,14 +58,14 @@ public class PeliculasActivity extends AppCompatActivity {
             }
         });
 
-        lista = new ArrayList<Peliculas>();
 
-        sp = getSharedPreferences("login", Context.MODE_PRIVATE);
+
         dbHelper = new PeliculasSQLiteHelper(PeliculasActivity.this);
         db = dbHelper.getReadableDatabase();
         if(db != null) {
+            lista = new ArrayList<Peliculas>();
+            Cursor fila = dbHelper.obtenerTodasPeliculas(db);
 
-            Cursor fila = dbHelper.obtenerTodasPeliculas(db,sp.getInt("usuarioId",0));
 
             if (fila.moveToFirst()){
 
@@ -80,7 +81,7 @@ public class PeliculasActivity extends AppCompatActivity {
 
 
         }
-        Adaptador miadaptador = new Adaptador(getApplicationContext(), lista);
+        miadaptador = new Adaptador(getApplicationContext(), lista);
 
         listaPeliculas.setAdapter(miadaptador);
 
@@ -106,9 +107,8 @@ public class PeliculasActivity extends AppCompatActivity {
                 dbHelper = new PeliculasSQLiteHelper(PeliculasActivity.this);
                 db = dbHelper.getReadableDatabase();
                 if(db != null) {
-
                     lista = new ArrayList<Peliculas>();
-                    Cursor fila = dbHelper.obtenerPelicula(db,txtbuscar.getText().toString().toLowerCase(),sp.getInt("usuarioId",0));
+                    Cursor fila = dbHelper.obtenerPelicula(db,txtbuscar.getText().toString().toLowerCase());
 
 
                     if (fila.moveToFirst()){
@@ -126,37 +126,41 @@ public class PeliculasActivity extends AppCompatActivity {
 
                 }
 
-                if (lista.size() <= 0){
+                if (lista.size() > 0){
 
-                    Toast toast1 = Toast.makeText(getApplicationContext(), "No se encontraron peliculas con el titulo indicado", Toast.LENGTH_SHORT);
+                    Toast toast1 = Toast.makeText(getApplicationContext(), "Cantidad de Peliculas encontradas: "+lista.size(), Toast.LENGTH_SHORT);
                     toast1.setGravity(Gravity.CENTER,0, 0);
                     toast1.show();
 
-                }else {
+                    Adaptador miadaptador = new Adaptador(getApplicationContext(), lista);
+
+                    listaPeliculas.setAdapter(miadaptador);
+
+                    listaPeliculas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            Peliculas objPelicula = (Peliculas) parent.getItemAtPosition(position);
+
+                            Intent pasar = new Intent(getApplicationContext(), DetallePeliculaActivity.class);
+                            pasar.putExtra("objPelicula", (Serializable) objPelicula);
+                            pasar.putExtra("desde", "Local");
+                            startActivity(pasar);
+
+                        }
+                    });
+
+                }else{
 
 
-                    Toast toast1 = Toast.makeText(getApplicationContext(), "Cantidad de peliculas encontradas: "+lista.size(), Toast.LENGTH_SHORT);
+                    Toast toast1 = Toast.makeText(getApplicationContext(), "No hubo coincidencias", Toast.LENGTH_SHORT);
                     toast1.setGravity(Gravity.CENTER,0, 0);
                     toast1.show();
                 }
 
-                Adaptador miadaptador = new Adaptador(getApplicationContext(), lista);
 
-                listaPeliculas.setAdapter(miadaptador);
 
-                listaPeliculas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        Peliculas objPelicula = (Peliculas) parent.getItemAtPosition(position);
-
-                        Intent pasar = new Intent(getApplicationContext(), DetallePeliculaActivity.class);
-                        pasar.putExtra("objPelicula", (Serializable) objPelicula);
-                        pasar.putExtra("desde", "Local");
-                        startActivity(pasar);
-
-                    }
-                });
             }
         });
     }

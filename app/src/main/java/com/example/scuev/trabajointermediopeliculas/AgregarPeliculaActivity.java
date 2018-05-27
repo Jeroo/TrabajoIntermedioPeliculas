@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -87,18 +88,37 @@ public class AgregarPeliculaActivity extends AppCompatActivity implements View.O
 
                 if(db != null){
 
-                    dbHelper.guardarPelicula(db,usuarioid,titulo.getText().toString(),descripcion.getText().toString()
-                            ,actorPrincipal.getText().toString(),ciudad.getText().toString(),etFecha.getText().toString(),sevenItems);
+                    if(!TextUtils.isEmpty(titulo.getText().toString()) && !TextUtils.isEmpty(descripcion.getText().toString())
+                            && !TextUtils.isEmpty(actorPrincipal.getText().toString())  && !TextUtils.isEmpty(ciudad.getText().toString())
+                            && !TextUtils.isEmpty(etFecha.getText().toString())){
+
+                        dbHelper.guardarPelicula(db,usuarioid,titulo.getText().toString(),descripcion.getText().toString()
+                                ,actorPrincipal.getText().toString(),ciudad.getText().toString(),etFecha.getText().toString(),sevenItems);
+
+                        db.close();
+                        dbHelper.close();
+
+                        goToPeliculasActivity();
+
+                        Toast toast1 = Toast.makeText(getApplicationContext(), "Pelicula agregada correctamente", Toast.LENGTH_SHORT);
+                        toast1.setGravity(Gravity.CENTER,0, 0);
+                        toast1.show();
+
+                    }else {
+
+                        Toast toast1 = Toast.makeText(getApplicationContext(), "Faltan campos por completar, favor verificar", Toast.LENGTH_SHORT);
+                        toast1.setGravity(Gravity.CENTER,0, 0);
+                        toast1.show();
+
+                    }
+
+                    db.close();
+                    dbHelper.close();
+
+
                 }
 
-                db.close();
-                dbHelper.close();
 
-                goToPeliculasActivity();
-
-                Toast toast1 = Toast.makeText(getApplicationContext(), "Pelicula agregada correctamente", Toast.LENGTH_SHORT);
-                toast1.setGravity(Gravity.CENTER,0, 0);
-                toast1.show();
 
             }
         });

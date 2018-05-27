@@ -3,6 +3,8 @@
     package="com.example.scuev.trabajointermediopeliculas">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" / -->
+
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -17,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LogonActivity"
+            android:name=".PeliculasActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,8 +34,8 @@
         </activity>
         <activity android:name=".DetallePeliculaActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".PeliculasActivity" />
         <activity android:name=".AgregarPeliculaActivity" />
+        <activity android:name=".LogonActivity" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".ModificarPeliculaActivity"></activity>
     </application>

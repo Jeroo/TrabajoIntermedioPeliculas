@@ -4,9 +4,11 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -68,17 +70,36 @@ public class ModificarPeliculaActivity extends AppCompatActivity implements View
         actorPrincipal = (EditText) findViewById(R.id.agregar_actor_modificar);
         ciudad = (EditText) findViewById(R.id.agregar_ciudad_modificar);
 
-
-        //Peliculas objPeliculaActualizar = (Peliculas)getIntent().getExtras().getSerializable("objPelicula");
         sp = getSharedPreferences("objPeliculaModificar", Context.MODE_PRIVATE);
         int peliculaId = sp.getInt("peliculaId",0);
 
-        Log.d("peliculaId",String.valueOf(peliculaId));
-        /*titulo.setText(objPeliculaActualizar.getTitulo().toString());
-        descripcion.setText(objPeliculaActualizar.getDescripcion().toString());
-        actorPrincipal.setText(objPeliculaActualizar.getActorPrincipal().toString());
-        ciudad.setText(objPeliculaActualizar.getCiudad().toString());
-        etFecha.setText(objPeliculaActualizar.getFechaVisionado().toString());*/
+        if(peliculaId > 0){
+
+            dbHelper = new PeliculasSQLiteHelper(ModificarPeliculaActivity.this);
+            db = dbHelper.getReadableDatabase();
+            if(db != null) {
+
+                Cursor fila = dbHelper.obtenerPeliculaPorId(db,peliculaId);
+
+                if (fila.moveToFirst()){
+
+                    do {
+                            titulo.setText(fila.getString(2));
+                            descripcion.setText(fila.getString(3));
+                            actorPrincipal.setText(fila.getString(4));
+                            ciudad.setText(fila.getString(5));
+                            etFecha.setText(fila.getString(6));
+
+                            break;
+
+
+                    }while (fila.moveToNext());
+                }
+
+
+            }
+
+        }
 
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,26 +114,41 @@ public class ModificarPeliculaActivity extends AppCompatActivity implements View
             public void onClick(View v) {
 
                 sp = getSharedPreferences("login", Context.MODE_PRIVATE);
+                sp = getSharedPreferences("objPeliculaModificar", Context.MODE_PRIVATE);
                 dbHelper = new PeliculasSQLiteHelper(ModificarPeliculaActivity.this);
                 db = dbHelper.getWritableDatabase();
                 int usuarioid = sp.getInt("usuarioId",0);
-                Peliculas objPeliculaActualizar = (Peliculas)getIntent().getExtras().getSerializable("objPelicula");
+                int peliculaId = sp.getInt("peliculaId",0);
                 byte[] sevenItems = new byte[] { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };//etFecha.getText().toString()
 
                 if(db != null){
 
-                    dbHelper.actualizarPelicula(db,(int)objPeliculaActualizar.getPeliculaId(),usuarioid,titulo.getText().toString(),descripcion.getText().toString()
-                            ,actorPrincipal.getText().toString(),ciudad.getText().toString(),etFecha.getText().toString(),objPeliculaActualizar.getImagen());
+
+                    if(!TextUtils.isEmpty(titulo.getText().toString()) && !TextUtils.isEmpty(descripcion.getText().toString())
+                            && !TextUtils.isEmpty(actorPrincipal.getText().toString())  && !TextUtils.isEmpty(ciudad.getText().toString())
+                            && !TextUtils.isEmpty(etFecha.getText().toString())){
+
+
+                        dbHelper.actualizarPelicula(db,peliculaId,usuarioid,titulo.getText().toString(),descripcion.getText().toString()
+                                ,actorPrincipal.getText().toString(),ciudad.getText().toString(),etFecha.getText().toString(),sevenItems);
+
+                        db.close();
+                        dbHelper.close();
+
+                        goToPeliculasActivity();
+
+
+
+                    }else {
+
+                        Toast toast1 = Toast.makeText(getApplicationContext(), "Faltan campos por completar, favor verificar", Toast.LENGTH_SHORT);
+                        toast1.setGravity(Gravity.CENTER,0, 0);
+                        toast1.show();
+
+                    }
+
                 }
 
-                db.close();
-                dbHelper.close();
-
-                goToPeliculasActivity();
-
-                Toast toast1 = Toast.makeText(getApplicationContext(), "Pelicula agregada correctamente", Toast.LENGTH_SHORT);
-                toast1.setGravity(Gravity.CENTER,0, 0);
-                toast1.show();
 
             }
         });
