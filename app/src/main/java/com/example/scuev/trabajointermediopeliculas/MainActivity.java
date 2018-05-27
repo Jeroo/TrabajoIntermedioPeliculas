@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent pasar = new Intent(getApplicationContext(), DetallePeliculaActivity.class);
                 pasar.putExtra("objPelicula", (Serializable) objPelicula);
+                pasar.putExtra("desde", "Remoto");
                 startActivity(pasar);
 
             }

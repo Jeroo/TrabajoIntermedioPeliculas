@@ -11,12 +11,14 @@ public class PeliculasSQLiteHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "PeliculasDB.db";
     public static final int DB_VERSION = 1;
-    final String CREAR_TABLA_USUARIO = "CREATE TABLE usuarios (UsuarioId INTEGER PRIMARY KEY  AUTOINCREMENT, usuario TEXT, Nombres TEXT, Apellidos TEXT,Clave TEXT)";
-    final String CREAR_TABLA_PELICULAS = "CREATE TABLE peliculas (PeliculaId INTEGER PRIMARY KEY  AUTOINCREMENT, UsuarioId INTEGER, Titulo TEXT, Descripcion TEXT, ActorPrincipal TEXT,Ciudad TEXT,Ciudad TEXT,FechaVisionado TEXT,Imagen BLOB)";
 
     public PeliculasSQLiteHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
+
+
+    private final String CREAR_TABLA_USUARIO = "CREATE TABLE usuarios (UsuarioId INTEGER PRIMARY KEY  AUTOINCREMENT, usuario TEXT, Nombres TEXT, Apellidos TEXT,Clave TEXT)";
+    private final String CREAR_TABLA_PELICULAS = "CREATE TABLE peliculas (PeliculaId INTEGER PRIMARY KEY  AUTOINCREMENT, UsuarioId INTEGER, Titulo TEXT, Descripcion TEXT, ActorPrincipal TEXT,Ciudad TEXT,FechaVisionado TEXT,Imagen BLOB)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -140,7 +142,7 @@ public class PeliculasSQLiteHelper extends SQLiteOpenHelper {
         String[] columns = new String[]{"peliculaId", "UsuarioId","Titulo", "Descripcion", "ActorPrincipal", "Ciudad", "FechaVisionado", "Imagen"};
         String[] args = new String[]{Titulo};
 
-        return  db.query("peliculas",columns, "Titulo=?", args,null,null,null);
+        return  db.query("peliculas",columns, "LOWER(Titulo)=?", args,null,null,null);
 
     }
 
@@ -149,6 +151,18 @@ public class PeliculasSQLiteHelper extends SQLiteOpenHelper {
         String[] columns = new String[]{"peliculaId", "UsuarioId","Titulo", "Descripcion", "ActorPrincipal", "Ciudad", "FechaVisionado", "Imagen"};
 
         return  db.query("peliculas",columns, null, null,null,null,"peliculaId ASC");
+
+    }
+
+    public Cursor login(SQLiteDatabase db, String usuario, String clave){
+
+        Cursor fila;
+        String[] columns = new String[]{"UsuarioId", "usuario","Nombres", "Apellidos"};
+        String[] args = new String[]{usuario};
+
+        fila = db.rawQuery("select UsuarioId,usuario,Nombres,Apellidos from usuarios where LOWER(usuario)='"+usuario+"' and  clave='"+clave+"'",null);
+
+        return fila;
 
     }
 

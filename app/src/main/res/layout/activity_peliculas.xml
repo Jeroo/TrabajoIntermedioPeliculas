@@ -16,7 +16,7 @@
         <EditText
             android:id="@+id/txtBuscarPeliculasLocal"
             android:layout_width="match_parent"
-            android:hint="Buscar peliculas en omdbapi"
+            android:hint="Buscar peliculas en guardadas"
             android:layout_height="match_parent" />
 
         <Button
@@ -33,4 +33,7 @@
 
 
     </android.support.design.widget.AppBarLayout>
+
+
+    <include layout="@layout/content_main" />
 </LinearLayout>

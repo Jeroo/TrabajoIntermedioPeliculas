@@ -24,11 +24,11 @@
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="244dp"
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_action_user"
         android:ems="10"
-        android:hint="Nombre de Usuario"
+        android:hint="@string/nombre_de_usuario"
         android:inputType="textPersonName"
         android:textSize="16dp" />
 
@@ -38,11 +38,11 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="228dp"
+        android:layout_marginBottom="221dp"
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_action_clave"
         android:ems="10"
-        android:hint="Clave"
+        android:hint="@string/clave"
         android:inputType="textPassword"
         android:textSize="16dp" />
 
@@ -54,7 +54,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="112dp"
-        android:text="Registrarse"
+        android:text="@string/registrarse"
+        android:onClick="onClick"
+        android:clickable="true"
         android:textColor="@android:color/background_light"
         android:textSize="14sp" />
 
@@ -67,6 +69,6 @@
         android:layout_marginBottom="158dp"
         android:background="@color/colorAccent"
         android:shadowRadius="@android:integer/config_longAnimTime"
-        android:text="Login" />
+        android:text="@string/login" />
 
 </RelativeLayout>
