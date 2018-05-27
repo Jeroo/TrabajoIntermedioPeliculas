@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.example.scuev.trabajointermediopeliculas.utils.PeliculasSQLiteHelper;
 
+import java.io.Serializable;
+
 public class DetallePeliculaActivity extends AppCompatActivity {
 
     ImageView imgPelicula;
@@ -82,6 +84,24 @@ public class DetallePeliculaActivity extends AppCompatActivity {
                 goToPeliculasActivity();
 
 
+            }
+        });
+
+        actualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Peliculas objPeliculaModificar = (Peliculas)getIntent().getExtras().getSerializable("objPelicula");
+               /* Intent pasar = new Intent(getApplicationContext(), DetallePeliculaActivity.class);
+                pasar.putExtra("objPeliculaModificar", (Serializable) objPeliculaModificar);
+                pasar.putExtra("peliculaId", String.valueOf(1));*/
+
+                sp = getSharedPreferences("objPeliculaModificar", Context.MODE_PRIVATE);
+                sp.edit().putInt("peliculaId",(int)objPeliculaModificar.getPeliculaId()).apply();
+
+
+                Intent i = new Intent(DetallePeliculaActivity.this,ModificarPeliculaActivity.class);
+                startActivity(i);
             }
         });
     }

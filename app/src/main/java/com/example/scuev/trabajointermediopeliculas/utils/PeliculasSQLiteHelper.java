@@ -11,6 +11,7 @@ public class PeliculasSQLiteHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "PeliculasDB.db";
     public static final int DB_VERSION = 1;
+    Cursor fila;
 
     public PeliculasSQLiteHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -137,26 +138,32 @@ public class PeliculasSQLiteHelper extends SQLiteOpenHelper {
 
     }
 
-    public Cursor obtenerPelicula(SQLiteDatabase db, String Titulo){
+    public Cursor obtenerPelicula(SQLiteDatabase db, String Titulo,int usuarioId){
 
         String[] columns = new String[]{"peliculaId", "UsuarioId","Titulo", "Descripcion", "ActorPrincipal", "Ciudad", "FechaVisionado", "Imagen"};
         String[] args = new String[]{Titulo};
 
-        return  db.query("peliculas",columns, "LOWER(Titulo)=?", args,null,null,null);
+        fila = db.rawQuery("select peliculaId,UsuarioId,Titulo,Descripcion,ActorPrincipal,Ciudad,FechaVisionado,Imagen from peliculas where UsuarioId="+usuarioId,null);
+
+        return fila;
+       // return  db.query("peliculas",columns, "LOWER(Titulo)=?", args,null,null,null);
 
     }
 
-    public Cursor obtenerTodasPeliculas(SQLiteDatabase db){
+    public Cursor obtenerTodasPeliculas(SQLiteDatabase db,int usuarioId){
 
         String[] columns = new String[]{"peliculaId", "UsuarioId","Titulo", "Descripcion", "ActorPrincipal", "Ciudad", "FechaVisionado", "Imagen"};
 
-        return  db.query("peliculas",columns, null, null,null,null,"peliculaId ASC");
+       // return  db.query("peliculas",columns, null, null,null,null,"peliculaId ASC");
+
+        fila = db.rawQuery("select peliculaId,UsuarioId,Titulo,Descripcion,ActorPrincipal,Ciudad,FechaVisionado,Imagen from peliculas where UsuarioId="+usuarioId,null);
+
+        return fila;
 
     }
 
     public Cursor login(SQLiteDatabase db, String usuario, String clave){
 
-        Cursor fila;
         String[] columns = new String[]{"UsuarioId", "usuario","Nombres", "Apellidos"};
         String[] args = new String[]{usuario};
 

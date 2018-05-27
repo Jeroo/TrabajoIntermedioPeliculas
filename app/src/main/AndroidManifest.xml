@@ -34,7 +34,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".PeliculasActivity" />
         <activity android:name=".AgregarPeliculaActivity" />
-        <activity android:name=".RegistroActivity"></activity>
+        <activity android:name=".RegistroActivity" />
+        <activity android:name=".ModificarPeliculaActivity"></activity>
     </application>
 
 </manifest>
