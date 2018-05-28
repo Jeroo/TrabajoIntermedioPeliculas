@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,11 +54,17 @@ public class DetallePeliculaActivity extends AppCompatActivity {
         if (desde.equals("Local")){
 
             agregar.setVisibility(View.GONE);
+            imgPelicula.setImageResource(R.drawable.logo);
+
+        }else {
+
+            borrar.setVisibility(View.GONE);
+            actualizar.setVisibility(View.GONE);
+            imgPelicula.setImageBitmap(BitmapFactory.decodeByteArray(objPelicula.getImagen(), 0, objPelicula.getImagen().length));
         }
 
         titulo.setText(objPelicula.getTitulo());
         descripcion.setText(objPelicula.getDescripcion());
-        imgPelicula.setImageResource(R.drawable.logo);
        // imgPelicula.setImageResource(objPelicula.getImagen());
 
         borrar.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +109,15 @@ public class DetallePeliculaActivity extends AppCompatActivity {
 
 
                 Intent i = new Intent(DetallePeliculaActivity.this,ModificarPeliculaActivity.class);
+                startActivity(i);
+            }
+        });
+
+        agregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(DetallePeliculaActivity.this,AgregarPeliculaActivity.class);
                 startActivity(i);
             }
         });

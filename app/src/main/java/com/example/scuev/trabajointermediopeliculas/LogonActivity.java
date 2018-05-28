@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class LogonActivity extends AppCompatActivity {
     PeliculasSQLiteHelper dbHelper;
     SQLiteDatabase db;
     SharedPreferences sp;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class LogonActivity extends AppCompatActivity {
         usuario = (EditText) findViewById(R.id.txtUsuario);
         clave = (EditText) findViewById(R.id.txtClave);
         registrarse = (TextView) findViewById(R.id.txtRegistrarse);
+        spinner=(ProgressBar)findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
 
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -51,6 +55,7 @@ public class LogonActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                spinner.setVisibility(View.VISIBLE);
                 sp = getSharedPreferences("login", Context.MODE_PRIVATE);
                 dbHelper = new PeliculasSQLiteHelper(LogonActivity.this);
                 db = dbHelper.getReadableDatabase();
@@ -108,6 +113,7 @@ public class LogonActivity extends AppCompatActivity {
 
 
     public void goToMainActivity(){
+
         Intent i = new Intent(this,MainActivity.class);
         startActivity(i);
     }

@@ -1,5 +1,7 @@
 package com.example.scuev.trabajointermediopeliculas.Models;
 
+import android.os.AsyncTask;
+
 import java.util.ArrayList;
 
 public class PeliculasRespuesta {
@@ -13,4 +15,5 @@ public class PeliculasRespuesta {
     public void setSearch(ArrayList<PeliculasAPI> search) {
         Search = search;
     }
+
 }

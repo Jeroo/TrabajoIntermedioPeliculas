@@ -108,7 +108,7 @@ public class PeliculasActivity extends AppCompatActivity {
                 db = dbHelper.getReadableDatabase();
                 if(db != null) {
                     lista = new ArrayList<Peliculas>();
-                    Cursor fila = dbHelper.obtenerPelicula(db,txtbuscar.getText().toString().toLowerCase());
+                    Cursor fila = dbHelper.obtenerPelicula(db,txtbuscar.getText().toString().toLowerCase().trim());
 
 
                     if (fila.moveToFirst()){

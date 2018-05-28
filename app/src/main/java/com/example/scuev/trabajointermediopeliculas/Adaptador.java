@@ -61,7 +61,7 @@ public class Adaptador extends BaseAdapter {
         descripcion.setText(listaPeliculas.get(position).getDescripcion().toString());
         imagen.setImageResource(R.drawable.logo);
        // imagen.setImageDrawable(R.drawable.ic_launcher_background);
-       // imagen.setImageBitmap(BitmapFactory.decodeByteArray(listaPeliculas.get(position).getImagen(), 0, listaPeliculas.get(position).getImagen().length));
+        imagen.setImageBitmap(BitmapFactory.decodeByteArray(listaPeliculas.get(position).getImagen(), 0, listaPeliculas.get(position).getImagen().length));
 
         return vista;
 

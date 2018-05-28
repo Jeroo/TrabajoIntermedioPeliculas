@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TrabajoIntermedioPeliculas</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="title_activity_login">se connecter</string>
+    <string name="titlulo_pickers">Obtenir la date et l\'heure</string>
+    <string name="formato_fecha">Affichage de la date (jj / mm / aaaa)</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Mot de passe (facultatif)</string>
+    <string name="action_sign_in">Connexion ou Inscription</string>
+    <string name="action_sign_in_short">se connecter</string>
+    <string name="error_invalid_email">Cette adresse e-mail est invalide</string>
+    <string name="error_invalid_password">"Ce mot de passe est trop court "</string>
+    <string name="error_incorrect_password">"Ce mot de passe est incorrect "</string>
+    <string name="error_field_required">Ce champ est requis</string>
+    <string name="titulo_pelicula">Titre</string>
+    <string name="cancelar">annuler</string>
+    <string name="agregarPelicula">Ajouter</string>
+    <string name="loginTextoRegistro">"Déjà un utilisateur? Commencer la session "</string>
+    <string name="crear_una_cuenta">Créer un compte</string>
+    <string name="apellidos">Nom</string>
+    <string name="nombres">Noms</string>
+    <string name="descripci_n_pelicula">"Description du film "</string>
+    <string name="actor_principal">Acteur principal</string>
+    <string name="ciudad">Ville</string>
+    <string name="fecha_de_visionado">"Date de visionnement "</string>
+    <string name="clave">mot de passe</string>
+    <string name="registrarse">S\'enregistrer</string>
+    <string name="login">Connexion</string>
+    <string name="nombre_de_usuario">Nom d\'utilisateur</string>
+    <string name="modificar">Modifier</string>
+</resources>
